@@ -8,14 +8,17 @@ class users extends Model{
 	// Constructor
 	public function __construct(){
 		parent::__construct();
-		//test inputs
-		$this->uID = 22;
-		$this->first_name = 'Bill';
-		$this->last_name = 'Murray';
-		$this->email = 'bmurray@gmail.com';
-		$this->user_type = 1;
+		if(isset($_SESSION['uID'])) {
+			$userInfo = $this->getUserFromID($_SESSION['uID']);
+
+			$this->uID=$userInfo['uID'];
+			$this->first_name=$userInfo['first_name'];
+			$this->last_name=$userInfo['last_name'];
+			$this->email=$userInfo['email'];
+			$this->user_type=$userInfo['user_type'];
+		}
 	}
-}
+
 
 	public function getUser($uID){
 		$sql = 'SELECT uID, first_name, last_name, email, password FROM users WHERE uID = ?';
@@ -112,6 +115,4 @@ class users extends Model{
 
 			return $user;
 		}
-
-
 }
